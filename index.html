@@ -1,0 +1,682 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Project 2 | Fun with Filters and Frequencies</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="40fe7c5d-fe6b-4020-95e7-8b1583e538be" class="page sans"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/gradients_3.png" style="object-position:center 60%"/><h1 class="page-title"><strong>Project 2</strong> | Fun with Filters and Frequencies</h1><p class="page-description"></p></header><div class="page-body"><h2 id="d7870248-0972-473e-9bdb-d5017b1d79e8" class="">Overview</h2><p id="99718ef0-5708-49cb-ad6c-0765a3083e7b" class="">The goal of Project 2 was to explore different image filtering methods, frequencies, and blending techniques. This included derivative and Gaussian filtering, image sharpening, and Gaussian/Laplacian stacking.</p><h2 id="c032f743-fa0b-4345-a62c-1fa59f6379df" class="">Approach</h2><h3 id="f0c389d9-a057-4d84-8084-ebf91aca8c12" class="">Filters</h3><p id="78dec490-d1c8-477c-84e3-bcfd84e89a4d" class=""><span style="border-bottom:0.05em solid">Finite Difference Operator</span></p><p id="6908a2cd-5daf-44ac-9663-6af2eff877a2" class="">I took the difference operators (Figure 1) and convolved them over the cameraman image to get its partial derivatives. To get the gradient magnitude image, I calculated the square root of the squared sum of the x and y partial derivatives (Figure 2). Then I binarized the gradient magnitude image using <strong>np.where</strong> to filter out the edges.</p><div id="51beed6a-9402-4529-b939-19041a54c9fb" class="column-list"><div id="dc30d182-6eba-4574-8086-c5f21c30c467" style="width:50%" class="column"><figure id="04561206-4c62-49bd-8da7-7dcbdfe4e714" class="image"><a href="results/Untitled.png"><img style="width:288px" src="results/Untitled.png"/></a><figcaption>Figure 1</figcaption></figure></div><div id="506b2345-0ea9-4d5d-b65c-2f58b814cc5f" style="width:50%" class="column"><figure id="ca355726-72ef-4220-bc31-65dd53b42f40" class="image"><a href="results/Untitled%201.png"><img style="width:240px" src="results/Untitled%201.png"/></a><figcaption>Figure 2</figcaption></figure></div></div><figure id="7a48d5f4-53c7-4436-b7a4-26b90c3bb21d" class="image"><a href="results/regular_convolution.png"><img style="width:986px" src="results/regular_convolution.png"/></a></figure><p id="65835b3a-5744-406d-a155-479a7deb9129" class=""><span style="border-bottom:0.05em solid">Derivative of Gaussian (DoG)</span></p><p id="1e94b8ec-3ccf-4f65-bd82-a58a02e03413" class="">First, I created a Gaussian kernel using <strong>cv2.getGaussianKernel</strong> with a specified <strong>kernel size</strong> and <strong>sigma</strong> value. I then took this kernel and outer multiplied it by its transpose to create a 2D Gaussian kernel. To reproduce the Gaussian filtered version of the partial derivatives, I <mark class="highlight-yellow_background">convoluted the 2D Gaussian kernel</mark> over the cameraman image. Then I convoluted the product over the difference operators. For the following Gaussian gradient magnitude and edge filtered image, I repeated the same steps I took in the Finite Difference Operator approach but replaced the values with their Gaussian filtered versions.</p><figure id="69ebaf56-491a-4eec-ae37-865d0775217e" class="image"><a href="results/gaussian_convolution.png"><img style="width:1063px" src="results/gaussian_convolution.png"/></a></figure><p id="1603f821-9421-4e4d-b37a-4ffeae29b038" class=""><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid">Differences</span></span></span></span></span></span></span></span></span></span></span></p><p id="9debd59f-949f-44ba-a2da-4ec359e1207f" class="">The regularly convoluted images are brighter and sharper, compared to the gaussian convoluted images which are dark and smooth. Also, the lines of the regular edge filter is much thinner than the gaussian edge filter.</p><p id="3045f7b0-34a5-413e-9116-24c2f04f50d5" class="">
+</p><h3 id="aef80fbf-6978-4e33-a3f9-6c36561f1715" class="">Frequencies</h3><p id="302852df-c6dc-4cd7-a973-6b73ce2897e4" class=""><span style="border-bottom:0.05em solid">Image “Sharpening”</span></p><p id="ffdcd367-7d01-497e-9f92-7cbb5f49177f" class="">Note: Something I got <mark class="highlight-red_background">stuck on for a long time</mark><mark class="highlight-default">—</mark> throughout the whole project— was figuring out how to produce colored images. To do this, I needed to get the 3 separate color channels of the image. A very useful function is <strong>cv2.split </strong>(it returns the channels in the order: b, g, r)! </p><p id="35f31363-0832-454b-bd2a-e8028e105ab2" class="">I then convoluted the Gaussian filter over each channel to get the low frequencies/low-pass filtered image. Using <strong>np.dstack</strong>, I recombined the color channels to produce the colored, low frequencies. To get the high frequencies, I subtracted the original image by the low frequencies.</p><p id="2483d1f1-2c5a-44c0-99c7-23359c3021e0" class="">I sharpened the image by <mark class="highlight-yellow_background">scaling the high frequencies</mark> by a scalar (<strong>alpha</strong>) and <mark class="highlight-yellow_background">adding it to the original image</mark>.</p><figure id="75477e5f-3635-4e17-9749-d12319eef56f" class="image"><a href="results/taj.png"><img style="width:986px" src="results/taj.png"/></a><figcaption>alpha = 8</figcaption></figure><figure id="887a72e4-4d50-4f08-9465-8b81f4af99ff" class="image"><a href="results/penguin.png"><img style="width:985px" src="results/penguin.png"/></a><figcaption>alpha = 4</figcaption></figure><figure id="65ce407b-4bd8-41dd-b7a9-8700896ad4c9" class="image"><a href="results/bunny.png"><img style="width:986px" src="results/bunny.png"/></a><figcaption>alpha = 2</figcaption></figure><p id="dfaa5e5d-5e6e-4fd1-86b7-cfeb079ca720" class=""><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid"><span style="border-bottom:0.05em solid">Hybrids</span></span></span></span></span></span></span></p><p id="eefc95a7-6b79-40b9-89cd-dfa6ed3955fa" class="">For the hybrid images, I extracted the low and high frequencies from the image and added them together. The alignment and rotation was done with the provided starter code. Each set of hybrid images had attuned cutoff-frequencies.</p><div id="4b89b64f-aff3-4092-a957-4df55f14e75f" class="column-list"><div id="ad5abbc5-745e-4aeb-8fb6-efc334dc8fec" style="width:75%" class="column"><figure id="2b95080d-99a9-4f94-a96e-80e408172391" class="image"><a href="results/decat.png"><img style="width:976px" src="results/decat.png"/></a><figcaption>Derek and his cat</figcaption></figure></div><div id="ba979342-b187-4db3-94ea-c3a76c323a94" style="width:25.000000000000007%" class="column"><figure id="6bd34b89-b2e2-4cee-84e8-3689bb89c7df" class="image"><a href="results/decat_res.png"><img style="width:252px" src="results/decat_res.png"/></a></figure></div></div><div id="05b7d288-a221-41ab-a5c9-af2c2110d667" class="column-list"><div id="a33482c5-7f73-4d7d-b45c-5d1c3282162a" style="width:62.5%" class="column"><figure id="7d6a50e9-6eb0-45ad-bb25-855181a60da1" class="image"><a href="results/liger.png"><img style="width:432px" src="results/liger.png"/></a><figcaption>Liger</figcaption></figure><p id="b09bcae4-1cc0-45f8-8edc-5e13ecb97923" class="">The enlarged image looks better!</p></div><div id="a254bd34-987f-49cf-adf3-83b60596b7e3" style="width:37.5%" class="column"><figure id="2cbfac4b-4266-40ed-8397-0a402bc14dff" class="image"><a href="results/liger_res.png"><img style="width:272px" src="results/liger_res.png"/></a></figure></div></div><div id="8b572bd4-dfd2-4cf1-9abf-316d55e104a4" class="column-list"><div id="c0212e91-3552-4abc-b4ed-8fa0f4fc25df" style="width:62.5%" class="column"><figure id="b0da9f39-bb29-45b0-80d0-f21d9a5f5690" class="image"><a href="results/bajok_progress.png"><img style="width:986px" src="results/bajok_progress.png"/></a><figcaption>Bajok</figcaption></figure><p id="79669120-0979-40e5-92f5-2f01dd3eb91e" class="">This hybrid image failed because the low frequencies (the joker image) are too defined, making batman impossible to see even at a far distance.</p></div><div id="a799deae-0b99-4876-a246-a65e6f274128" style="width:37.5%" class="column"><figure id="e6ab7db4-ac9f-4212-b760-5b026ec5fea6" class="image"><a href="results/bajok.png"><img style="width:438px" src="results/bajok.png"/></a></figure></div></div><p id="9b742822-d5a6-49c6-8646-a71995f7d544" class="block-color-blue_background">✧˖°. The Squail ✧˖°.</p><p id="150395ad-0538-40d0-bcdd-cd1a63e9c657" class="">
+</p><figure id="ee33b103-9ee0-457e-aa2f-3fe73df4d73a" class="image"><a href="results/squail_res.png"><img style="width:270px" src="results/squail_res.png"/></a><figcaption>Squail</figcaption></figure><p id="1ae77e0e-4732-48c6-9b13-05b6c22bc612" class="">
+</p><figure id="d3d9a50a-b88d-4156-b8c8-3b3ea2d8accb" class="image"><a href="results/squail_process.png"><img style="width:912px" src="results/squail_process.png"/></a></figure><figure id="fc8730d3-3b83-425c-8d49-d0c89f2719c1" class="image"><a href="results/squail_fft.png"><img style="width:912px" src="results/squail_fft.png"/></a><figcaption>Fourier Transform Analysis</figcaption></figure><p id="70174785-61a4-4129-9561-afffbb58c578" class="">
+</p><h3 id="536f2b9d-1230-4902-b71b-0579ec467608" class="">Blending</h3><p id="0eec2cd1-7c0e-4f73-94db-5afacb653ad6" class="">In order to blend images, I made a Gaussian and Laplacian stack. The <strong>Gaussian stack</strong> followed the same process as image sharpening. First, I got the 3 separate color channels from the original image, convoluted each one, and stacked the products to extract the low frequencies. This process was <mark class="highlight-yellow_background">repeated multiple times with different kernel sizes and sigma values</mark>. To get the <strong>Laplacian stack</strong>, I <mark class="highlight-yellow_background">iterated through the Gaussian stack and subtracted the current layer from the previous layer</mark> until I reached the last layer (which is kept the same).</p><p id="3000fa23-ab5a-4222-800b-cdc179f652b6" class="">I created 1 mask image that had a white shape in the spot that I wanted an image overlaid upon another. Then I got a second mask image by subtracting 1 by the mask image.</p><p id="30a3ad9f-31c3-4953-935c-85ba5b416dcf" class="">Then I generated the Gaussian and Laplacian stacks of the two subject images, and the Gaussian stack of the mask images. Using the respective pairs (image #1 with mask #1, image #2 with mask #2), I multiplied each layer of the images’ Laplacian stacks with each layer of the masks’ Gaussian stacks. This created a stack for both images progressively being blended. For each layer, I added the two products together to create a stack of the progression of the final image. Finally, I added all of the layers I created together to complete each image (the final result, blend of image #1 and #2, blend of image #1, and blend of image #2).</p><p id="36283862-f53f-4bcc-b2b6-bf50dcd3cb8b" class="">
+</p><div id="16d28d17-44e6-4942-ab76-6af6897c45aa" class="column-list"><div id="650fbae0-f2db-47d8-8401-bcfb2222aba1" style="width:50%" class="column"><figure id="3b795946-4913-4bbf-b69d-b6cf8d1b9d29" class="image"><a href="results/grid.png"><img style="width:637px" src="results/grid.png"/></a></figure></div><div id="70dad77e-04a7-42bb-b488-0bd4906efba9" style="width:50%" class="column"><figure id="4a885ca5-e986-4e4d-9392-5828c68bde86" class="image"><a href="results/orapple.jpg"><img style="width:300px" src="results/orapple.jpg"/></a><figcaption>The Orapple</figcaption></figure></div></div><div id="f56d370f-3856-46dd-ae87-99192b82dc5a" class="column-list"><div id="1113cd34-ebdd-49d9-993a-7b5c6f763cfc" style="width:25%" class="column"><figure id="7239c9d2-c5fe-4a50-841a-6a9a50f955b1" class="image"><a href="results/emu.jpg"><img style="width:500px" src="results/emu.jpg"/></a></figure></div><div id="52c944e1-620d-4f32-ab29-d7c19abc7d42" style="width:25%" class="column"><figure id="a6ccc256-f7ff-4be9-a17b-b0e8dacf1e89" class="image"><a href="results/pit.jpg"><img style="width:500px" src="results/pit.jpg"/></a></figure></div><div id="b9ae9774-0d52-4f7e-b5d3-79cea44177f0" style="width:25%" class="column"><figure id="8f2491e4-5824-4fc5-8bea-6cae8c850053" class="image"><a href="results/outline.jpg"><img style="width:500px" src="results/outline.jpg"/></a></figure></div><div id="1d683c17-1782-47a2-8863-04b8405604c2" style="width:25%" class="column"><figure id="1002e624-b545-49cb-a287-e64d2f6f92ab" class="image"><a href="results/emu_otori.jpg"><img style="width:500px" src="results/emu_otori.jpg"/></a><figcaption>Hi! I’m Emu Otori!</figcaption></figure></div></div><div id="182095a0-f876-46d4-8ac2-79a8aa7fd7c9" class="column-list"><div id="ef509744-5e33-41b5-babc-f8026c1887aa" style="width:62.5%" class="column"><figure id="da9ba514-20f3-4584-88b4-491863a17467" class="image"><a href="results/baby_ls.png"><img style="width:1296px" src="results/baby_ls.png"/></a></figure><figure id="3a891767-08a3-4666-a0f1-f91a6c296405" class="image"><a href="results/portal_ls.png"><img style="width:1296px" src="results/portal_ls.png"/></a></figure><figure id="7f1a2c70-58f1-4608-999e-410b4e7db252" class="image"><a href="results/mask_hole_ls.png"><img style="width:1296px" src="results/mask_hole_ls.png"/></a></figure><figure id="94461034-5e5c-4ba7-a1fc-f8e8d1bbd29f" class="image"><a href="results/mask_surround_ls.png"><img style="width:1296px" src="results/mask_surround_ls.png"/></a></figure></div><div id="d674195b-5a62-4fee-86cc-53b61ff05848" style="width:37.5%" class="column"><figure id="8609227c-5f0d-4752-b4ef-b5e8467b76ed" class="image"><a href="results/baby_portal.jpg"><img style="width:240px" src="results/baby_portal.jpg"/></a></figure><p id="be84b966-a6ad-404f-a27a-df8f5fd5200e" class="">Both of these images were taken on campus! They capture recent discoveries I’ve made.</p><p id="cd0998d0-c472-4c16-8f35-192d80ca71d7" class="">
+</p></div></div><p id="dd79a5ba-c6ec-4125-8029-86ad92eeeacd" class="">The coolest thing I learned from this assignment was that blending requires a mask and that the images are merged in layers!</p><h2 id="76caa5ef-1559-4263-94a2-c030f1ef3ac8" class="">Conclusion</h2><p id="0de6b7cb-c973-4b1e-8eaa-1fec834eae9f" class="">The most important thing I learned from this project is that convolution is a powerful operation and that the Gaussian filter is very versatile. But in order to produce colored images, you have to split the color channels and convolve each one!</p></div></article></body></html>
